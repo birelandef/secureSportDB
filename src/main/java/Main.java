@@ -13,7 +13,6 @@ import java.util.List;
 
 public class Main {
 
-
     private static Sportsmen getSportsmen() {
         Sportsmen sportsmen = new Sportsmen();
         sportsmen.setDocId(new BigInteger("2"));
@@ -26,11 +25,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/beans.xml");
-        DAO dao = (DAO)context.getBean("DAOImpl");
-        dao.save(getSportsmen());
-        System.out.println("Список всех элементов библиотеки:");
-        for (Sportsmen sportsmen : (List<Sportsmen>)dao.getAll() /*service.getAll()*/)
-            System.out.println(sportsmen);
+//        ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/beans.xml");
+//        DAO dao = (DAO)context.getBean("DAOImpl");
+//        dao.save(getSportsmen());
+//        System.out.println("Список всех элементов библиотеки:");
+//        for (Sportsmen sportsmen : (List<Sportsmen>)dao.getAll() /*service.getAll()*/)
+//            System.out.println(sportsmen);
     }
 }

@@ -25,6 +25,16 @@ public class Sportsmen {
     public Sportsmen() {
     }
 
+    public Sportsmen(BigInteger docId, String firstName, String secondName, Date birthDate, SexType sexTypeType, ClassType latinClass, ClassType standardClass) {
+        this.docId = docId;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.birthDate = birthDate;
+        this.sexTypeType = sexTypeType;
+        this.latinClass = latinClass;
+        this.standardClass = standardClass;
+    }
+
     public BigInteger getDocId() {
         return docId;
     }
