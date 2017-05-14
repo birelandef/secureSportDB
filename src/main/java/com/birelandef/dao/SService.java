@@ -1,6 +1,6 @@
 package com.birelandef.dao;
 
-import com.birelandef.Sportsmen;
+import com.birelandef.entities.Sportsmen;
 
 import java.util.List;
 

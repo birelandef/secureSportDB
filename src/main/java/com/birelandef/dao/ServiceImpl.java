@@ -1,8 +1,7 @@
 package com.birelandef.dao;
 
-import com.birelandef.Sportsmen;
+import com.birelandef.entities.Sportsmen;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Propagation;

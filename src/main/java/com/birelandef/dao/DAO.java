@@ -1,13 +1,13 @@
 package com.birelandef.dao;
 
-import com.birelandef.Sportsmen;
+import com.birelandef.entities.Sportsmen;
 
 import java.util.List;
 
 /**
  * Created by sophie on 14/05/17.
  */
-interface DAO {
-    public void save(Sportsmen sportsmen);
-    public List<Sportsmen> getAll();
+interface DAO<T> {
+    public void save(T sportsmen);
+    public List<T> getAll();
 }

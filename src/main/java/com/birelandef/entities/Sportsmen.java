@@ -1,5 +1,8 @@
-package com.birelandef;
+package com.birelandef.entities;
 
+
+import com.birelandef.entities.enums.ClassType;
+import com.birelandef.entities.enums.SexType;
 
 import javax.persistence.Id;
 import java.math.BigInteger;
@@ -15,7 +18,7 @@ public class Sportsmen {
     private String firstName;
     private String secondName;
     private Date birthDate;
-    private Sex sexType;
+    private SexType sexTypeType;
     private ClassType latinClass;
     private ClassType standardClass;
 
@@ -53,12 +56,12 @@ public class Sportsmen {
         this.birthDate = birthDate;
     }
 
-    public Sex getSexType() {
-        return sexType;
+    public SexType getSexTypeType() {
+        return sexTypeType;
     }
 
-    public void setSexType(Sex sexType) {
-        this.sexType = sexType;
+    public void setSexTypeType(SexType sexTypeType) {
+        this.sexTypeType = sexTypeType;
     }
 
     public ClassType getLatinClass() {
@@ -84,7 +87,7 @@ public class Sportsmen {
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", birthDate=" + birthDate +
-                ", sexType=" + sexType +
+                ", sexTypeType=" + sexTypeType +
                 ", latinClass=" + latinClass +
                 ", standardClass=" + standardClass +
                 '}';

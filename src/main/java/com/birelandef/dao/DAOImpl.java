@@ -1,6 +1,6 @@
 package com.birelandef.dao;
 
-import com.birelandef.Sportsmen;
+import com.birelandef.entities.Sportsmen;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by sophie on 14/05/17.
  */
 @Repository
-public class DAOImpl implements DAO {
+public class DAOImpl implements DAO<Sportsmen> {
     @PersistenceContext
     private EntityManager em;
     @Transactional(propagation = Propagation.REQUIRES_NEW)

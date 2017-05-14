@@ -1,6 +1,6 @@
-import com.birelandef.ClassType;
-import com.birelandef.Sex;
-import com.birelandef.Sportsmen;
+import com.birelandef.entities.enums.ClassType;
+import com.birelandef.entities.enums.SexType;
+import com.birelandef.entities.Sportsmen;
 import com.birelandef.dao.SService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -13,11 +13,11 @@ public class Main {
 
     private static Sportsmen getSportsmen() {
         Sportsmen sportsmen = new Sportsmen();
-        sportsmen.setDocId(new BigInteger("1"));
+        sportsmen.setDocId(new BigInteger("2"));
         sportsmen.setBirthDate(new Date(System.currentTimeMillis()));
-        sportsmen.setFirstName("Москаленко");
-        sportsmen.setSecondName("Илья");
-        sportsmen.setSexType(Sex.MAlE);
+        sportsmen.setFirstName("Абалымова");
+        sportsmen.setSecondName("Александра");
+        sportsmen.setSexTypeType(SexType.FEMAIL);
         sportsmen.setStandardClass(ClassType.B);
         return sportsmen;
     }
