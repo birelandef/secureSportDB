@@ -1,6 +1,7 @@
 package com.birelandef.dao;
 
 import com.birelandef.entities.Sportsmen;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ public class DAOImpl implements DAO<Sportsmen> {
     public void save(Sportsmen sportsmen) {
         em.persist(sportsmen);
     }
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Sportsmen> getAll() {
         return em.createQuery("from Sportsmen", Sportsmen.class).getResultList();
     }
