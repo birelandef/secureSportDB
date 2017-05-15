@@ -14,7 +14,7 @@ import java.util.Date;
 @javax.persistence.Entity
 public class Sportsmen {
     @Id
-    private BigInteger docId;
+    private String docId;
     private String firstName;
     private String secondName;
     private Date birthDate;
@@ -25,7 +25,7 @@ public class Sportsmen {
     public Sportsmen() {
     }
 
-    public Sportsmen(BigInteger docId, String firstName, String secondName, Date birthDate, SexType sexTypeType, ClassType latinClass, ClassType standardClass) {
+    public Sportsmen(String docId, String firstName, String secondName, Date birthDate, SexType sexTypeType, ClassType latinClass, ClassType standardClass) {
         this.docId = docId;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -35,10 +35,10 @@ public class Sportsmen {
         this.standardClass = standardClass;
     }
 
-    public BigInteger getDocId() {
+    public String getDocId() {
         return docId;
     }
-    public void setDocId(BigInteger docId) {
+    public void setDocId(String docId) {
         this.docId = docId;
     }
 
