@@ -10,8 +10,7 @@ public enum ClassType {
     C("C"),
     B("B"),
     A("A"),
-    M("M"),
-    I("I");
+    S("S");
     private String className;
 
     ClassType(String className) {

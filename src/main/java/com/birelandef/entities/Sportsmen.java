@@ -18,7 +18,7 @@ public class Sportsmen {
     private String firstName;
     private String secondName;
     private Date birthDate;
-    private SexType sexTypeType;
+    private SexType sexType;
     private ClassType latinClass;
     private ClassType standardClass;
 
@@ -30,7 +30,7 @@ public class Sportsmen {
         this.firstName = firstName;
         this.secondName = secondName;
         this.birthDate = birthDate;
-        this.sexTypeType = sexTypeType;
+        this.sexType = sexTypeType;
         this.latinClass = latinClass;
         this.standardClass = standardClass;
     }
@@ -66,12 +66,12 @@ public class Sportsmen {
         this.birthDate = birthDate;
     }
 
-    public SexType getSexTypeType() {
-        return sexTypeType;
+    public SexType getSexType() {
+        return sexType;
     }
 
-    public void setSexTypeType(SexType sexTypeType) {
-        this.sexTypeType = sexTypeType;
+    public void setSexType(SexType sexTypeType) {
+        this.sexType = sexTypeType;
     }
 
     public ClassType getLatinClass() {
@@ -97,7 +97,7 @@ public class Sportsmen {
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", birthDate=" + birthDate +
-                ", sexTypeType=" + sexTypeType +
+                ", sexType=" + sexType +
                 ", latinClass=" + latinClass +
                 ", standardClass=" + standardClass +
                 '}';
