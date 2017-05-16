@@ -8,7 +8,7 @@ import java.math.BigInteger;
  */
 public class Trainer {
     @Id
-    private BigInteger tDocId;
+    private String tDocId;
     private String lastName;
     private String firstName;
     private String club;
@@ -18,11 +18,11 @@ public class Trainer {
     public Trainer() {
     }
 
-    public BigInteger gettDocId() {
+    public String gettDocId() {
         return tDocId;
     }
 
-    public void settDocId(BigInteger tDocId) {
+    public void settDocId(String tDocId) {
         this.tDocId = tDocId;
     }
 

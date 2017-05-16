@@ -5,5 +5,5 @@ package com.birelandef.entities.enums;
  */
 public enum SexType {
     MALE,
-    FEMAIL;
+    FEMALE;
 }

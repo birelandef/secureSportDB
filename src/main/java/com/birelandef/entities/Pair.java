@@ -9,34 +9,34 @@ import java.math.BigInteger;
 @javax.persistence.Entity
 public class Pair {
     @Id
-    private BigInteger pairId;
-    private BigInteger  malePartnerId;
-    private BigInteger femalePartnerId;
+    private String pairId;
+    private String  malePartnerId;
+    private String femalePartnerId;
     private int score;
     private double averageScore;
     private String club;
 
-    public BigInteger getPairId() {
+    public String getPairId() {
         return pairId;
     }
 
-    public void setPairId(BigInteger pairId) {
+    public void setPairId(String pairId) {
         this.pairId = pairId;
     }
 
-    public BigInteger getMalePartnerId() {
+    public String getMalePartnerId() {
         return malePartnerId;
     }
 
-    public void setMalePartnerId(BigInteger malePartnerId) {
+    public void setMalePartnerId(String malePartnerId) {
         this.malePartnerId = malePartnerId;
     }
 
-    public BigInteger getFemalePartnerId() {
+    public String getFemalePartnerId() {
         return femalePartnerId;
     }
 
-    public void setFemalePartnerId(BigInteger femalePartnerId) {
+    public void setFemalePartnerId(String femalePartnerId) {
         this.femalePartnerId = femalePartnerId;
     }
 
