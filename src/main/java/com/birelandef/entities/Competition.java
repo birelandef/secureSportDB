@@ -2,14 +2,19 @@ package com.birelandef.entities;
 
 import com.birelandef.entities.enums.CompetitionType;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.StringJoiner;
 
 /**
  * Created by sophie on 15/05/17.
  */
+@Entity
 public class Competition {
-    private BigInteger CompetitionId;
+    @Id
+    private String CompetitionId;
     private String name;
     private int rate;
     private CompetitionType competitionType;
@@ -20,11 +25,11 @@ public class Competition {
     public Competition() {
     }
 
-    public BigInteger getCompetitionId() {
+    public String getCompetitionId() {
         return CompetitionId;
     }
 
-    public void setCompetitionId(BigInteger competitionId) {
+    public void setCompetitionId(String competitionId) {
         CompetitionId = competitionId;
     }
 

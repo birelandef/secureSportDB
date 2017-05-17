@@ -1,6 +1,7 @@
 package com.birelandef;
 
 import com.birelandef.dao.DAO;
+import com.birelandef.entities.Competition;
 import com.birelandef.entities.Pair;
 import com.birelandef.entities.Sportsmen;
 import com.birelandef.generator.EntityGenerator;
@@ -19,6 +20,7 @@ public class Main {
             ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/beans.xml");
             DAO sportsmenDao = (DAO)context.getBean("sprtdao");
             DAO pairDao = (DAO)context.getBean("prdao");
+            DAO competitionDao = (DAO)context.getBean("cmptdao");
             for (Sportsmen sportsmen : sportsmens)
                 sportsmenDao.addEntity(sportsmen);
             System.out.println("Count "+ sportsmenDao.getAllEntity().size());
@@ -26,6 +28,12 @@ public class Main {
             for (Pair pair : pairs)
                 pairDao.addEntity(pair);
             System.out.println("Count "+ pairDao.getAllEntity().size());
+
+            for (Competition competition : EntityGenerator.generateCompetitions())
+                competitionDao.addEntity(competition);
+            System.out.println("Count "+ competitionDao.getAllEntity().size());
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

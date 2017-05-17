@@ -1,9 +1,11 @@
 package com.birelandef.generator;
 
+import com.birelandef.entities.Competition;
 import com.birelandef.entities.Pair;
 import com.birelandef.entities.Sportsmen;
 import com.birelandef.entities.Trainer;
 import com.birelandef.entities.enums.ClassType;
+import com.birelandef.entities.enums.CompetitionType;
 import com.birelandef.entities.enums.SexType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -53,6 +56,19 @@ public class EntityGenerator {
         return sportsmens;
     }
 
+    public static List<Competition> generateCompetitions() throws URISyntaxException {
+        List<Competition> competitions = new ArrayList<>();
+
+        URI path = Thread.currentThread().getContextClassLoader().getResource("competitionsName.txt").toURI();
+
+        try (Stream<String> stream = Files.lines(Paths.get(path))) {
+            stream.forEach(value -> competitions.add(createFrameCompetition(value)));
+        } catch (IOException e) {
+            log.error("Error while generateCompetitions");
+        }
+        return competitions;
+    }
+
     public static List<Pair> generatePairs(List<Sportsmen> sportsmens) throws URISyntaxException {
         List<String> clubs = new ArrayList<>();
         List<Pair> pairs = new ArrayList<>();
@@ -78,7 +94,25 @@ public class EntityGenerator {
         }
         return pairs;
     }
-    
+
+
+    private static Competition createFrameCompetition(String name){
+        Random random = new Random();
+
+        Competition competition = new Competition();
+        //todo generate id
+        competition.setCompetitionId(String.valueOf(String.valueOf(random.nextInt())));
+        competition.setName(name);
+        competition.setMaxPoint(30);
+        competition.setLocation("г. Москва ДСЕ ЦСКА, Ленинградский пр-т,     д.39 стр.27");
+        //todo generate date
+//        competition.setDate(new Date(Math.abs(System.currentTimeMillis() - random.nextLong())));
+        competition.setCompetitionType(CompetitionType.LOCAL);
+        competition.setRate(1);
+        return competition;
+    }
+
+
     private static Sportsmen createFrameSportsmen(String fullName){
         Random random = new Random();
         String[] fullNameArr = fullName.split(" ");
