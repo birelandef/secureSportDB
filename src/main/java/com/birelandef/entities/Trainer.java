@@ -1,11 +1,18 @@
 package com.birelandef.entities;
 
-import javax.persistence.Id;
+import com.birelandef.entities.enums.ClassType;
+import com.birelandef.entities.enums.ProgramType;
+
+import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by sophie on 15/05/17.
  */
+@Entity
 public class Trainer {
     @Id
     private String tDocId;
@@ -14,6 +21,22 @@ public class Trainer {
     private String club;
     private boolean isLatin;
     private boolean isStandard;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.competition", cascade=CascadeType.ALL)
+    private Set<CompetitionResult> results;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "Trains",
+            joinColumns = @JoinColumn(name = "tDocId"),
+            inverseJoinColumns = @JoinColumn(name = "pairId"))
+    private List<Pair> trainedPairs;
+
+    public Set<CompetitionResult> getResults() {
+        return results;
+    }
+
+    public void setResults(Set<CompetitionResult> results) {
+        this.results = results;
+    }
 
     public Trainer() {
     }
@@ -21,6 +44,7 @@ public class Trainer {
     public String gettDocId() {
         return tDocId;
     }
+
 
     public void settDocId(String tDocId) {
         this.tDocId = tDocId;

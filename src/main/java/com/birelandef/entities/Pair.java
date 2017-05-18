@@ -1,20 +1,35 @@
 package com.birelandef.entities;
 
-import javax.persistence.Id;
-import java.math.BigInteger;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by sophie on 14/05/17.
  */
 @javax.persistence.Entity
 public class Pair {
+
     @Id
     private String pairId;
-    private String  malePartnerId;
-    private String femalePartnerId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "malePartnerId", referencedColumnName = "docId")
+    private Sportsmen  malePartnerId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "femalePartnerId", referencedColumnName = "docId")
+    private Sportsmen femalePartnerId;
+
     private int score;
     private double averageScore;
     private String club;
+
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "TakePart",
+            joinColumns = @JoinColumn(name = "competitionId"),
+            inverseJoinColumns = @JoinColumn(name = "pairId"))
+    private List<Competition> competitions;
 
     public String getPairId() {
         return pairId;
@@ -24,19 +39,19 @@ public class Pair {
         this.pairId = pairId;
     }
 
-    public String getMalePartnerId() {
+    public Sportsmen getMalePartnerId() {
         return malePartnerId;
     }
 
-    public void setMalePartnerId(String malePartnerId) {
+    public void setMalePartnerId(Sportsmen malePartnerId) {
         this.malePartnerId = malePartnerId;
     }
 
-    public String getFemalePartnerId() {
+    public Sportsmen getFemalePartnerId() {
         return femalePartnerId;
     }
 
-    public void setFemalePartnerId(String femalePartnerId) {
+    public void setFemalePartnerId(Sportsmen femalePartnerId) {
         this.femalePartnerId = femalePartnerId;
     }
 

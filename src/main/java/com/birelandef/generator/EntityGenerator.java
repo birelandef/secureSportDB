@@ -84,8 +84,8 @@ public class EntityGenerator {
         for (int i = 0; i< COUNT_OF_PAIR; i++) {
             Random random = new Random();
             Pair pair = new Pair();
-            pair.setMalePartnerId(manSportsmens.get(i).getDocId());
-            pair.setFemalePartnerId(womanSportsmens.get(i).getDocId());
+            pair.setMalePartnerId(manSportsmens.get(i));
+            pair.setFemalePartnerId(womanSportsmens.get(i));
             pair.setScore(random.nextInt());
             pair.setClub(clubs.get(random.nextInt(clubs.size())));
             pair.setPairId(String.valueOf(random.nextInt()));

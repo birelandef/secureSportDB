@@ -4,9 +4,7 @@ import com.birelandef.entities.enums.CompetitionType;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.math.BigInteger;
 import java.util.Date;
-import java.util.StringJoiner;
 
 /**
  * Created by sophie on 15/05/17.
@@ -14,7 +12,7 @@ import java.util.StringJoiner;
 @Entity
 public class Competition {
     @Id
-    private String CompetitionId;
+    private String competitionId;
     private String name;
     private int rate;
     private CompetitionType competitionType;
@@ -26,11 +24,11 @@ public class Competition {
     }
 
     public String getCompetitionId() {
-        return CompetitionId;
+        return competitionId;
     }
 
     public void setCompetitionId(String competitionId) {
-        CompetitionId = competitionId;
+        this.competitionId = competitionId;
     }
 
     public String getName() {
@@ -84,7 +82,7 @@ public class Competition {
     @Override
     public String toString() {
         return "Competition{" +
-                "CompetitionId=" + CompetitionId +
+                "competitionId=" + competitionId +
                 ", name='" + name + '\'' +
                 ", rate=" + rate +
                 ", competitionType=" + competitionType +
