@@ -5,9 +5,8 @@ import com.birelandef.entities.enums.ProgramType;
 
 import javax.persistence.*;
 import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by sophie on 15/05/17.
@@ -24,11 +23,41 @@ public class Trainer {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.competition", cascade=CascadeType.ALL)
     private Set<CompetitionResult> results;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "Trains",
-            joinColumns = @JoinColumn(name = "tDocId"),
-            inverseJoinColumns = @JoinColumn(name = "pairId"))
+            joinColumns = @JoinColumn(name = "tDocId", updatable = false, nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "pairId", updatable = false, nullable = false))
     private List<Pair> trainedPairs;
+
+
+    public  void selectAndSaveTrainingPairs(int selectedCount, List<Pair> pairs) {
+        Set<Pair> selectedPairs = new HashSet<>();
+
+        Random random = new Random();
+        for (int i = 0; i < selectedCount; i++) {
+            Pair pair = pairs.get(random.nextInt(pairs.size()));
+            if ((this.isStandard) &&
+                    (pair.getFemalePartnerId().getStandardClass() != null) &&
+                    (pair.getMalePartnerId().getStandardClass() != null)) {
+                selectedPairs.add(pair);
+            }
+            if ((this.isLatin) &&
+                    (pair.getFemalePartnerId().getLatinClass() != null) &&
+                    (pair.getMalePartnerId().getLatinClass() != null)) {
+                selectedPairs.add(pair);
+            }
+        }
+        trainedPairs =  selectedPairs.stream().collect(Collectors.toList());
+    }
+
+
+    public List<Pair> getTrainedPairs() {
+        return trainedPairs;
+    }
+
+    public void setTrainedPairs(List<Pair> trainedPairs) {
+        this.trainedPairs = trainedPairs;
+    }
 
     public Set<CompetitionResult> getResults() {
         return results;
@@ -100,5 +129,36 @@ public class Trainer {
                 ", isLatin=" + isLatin +
                 ", isStandard=" + isStandard +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Trainer trainer = (Trainer) o;
+
+        if (isLatin != trainer.isLatin) return false;
+        if (isStandard != trainer.isStandard) return false;
+        if (!tDocId.equals(trainer.tDocId)) return false;
+        if (lastName != null ? !lastName.equals(trainer.lastName) : trainer.lastName != null) return false;
+        if (firstName != null ? !firstName.equals(trainer.firstName) : trainer.firstName != null) return false;
+        if (club != null ? !club.equals(trainer.club) : trainer.club != null) return false;
+        if (results != null ? !results.equals(trainer.results) : trainer.results != null) return false;
+        return trainedPairs != null ? trainedPairs.equals(trainer.trainedPairs) : trainer.trainedPairs == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = tDocId.hashCode();
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (club != null ? club.hashCode() : 0);
+        result = 31 * result + (isLatin ? 1 : 0);
+        result = 31 * result + (isStandard ? 1 : 0);
+        result = 31 * result + (results != null ? results.hashCode() : 0);
+        result = 31 * result + (trainedPairs != null ? trainedPairs.hashCode() : 0);
+        return result;
     }
 }

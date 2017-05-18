@@ -15,10 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,11 +29,11 @@ public class EntityGenerator {
     public static final int COUNT_OF_PAIR = 200;
 
 
-    public static List<Trainer> generateTrainers() throws URISyntaxException {
+    public static List<Trainer> generateTrainers(List<Pair> pairs) throws URISyntaxException {
         List<Trainer> trainers = new ArrayList<>();
         URI path = Thread.currentThread().getContextClassLoader().getResource("trainers.txt").toURI();
         try (Stream<String> stream = Files.lines(Paths.get(path))) {
-            stream.forEach(value -> trainers.add(createFrameTrainer(value)));
+            stream.forEach(value -> trainers.add(createFrameTrainer(value, pairs)));
         } catch (IOException e) {
             log.error("Error while generateTrainers");
         }
@@ -69,7 +66,7 @@ public class EntityGenerator {
         return competitions;
     }
 
-    public static List<Pair> generatePairs(List<Sportsmen> sportsmens) throws URISyntaxException {
+    public static List<Pair> generatePairs(List<Sportsmen> sportsmens, List<Competition> competitions) throws URISyntaxException {
         List<String> clubs = new ArrayList<>();
         List<Pair> pairs = new ArrayList<>();
 
@@ -90,6 +87,7 @@ public class EntityGenerator {
             pair.setClub(clubs.get(random.nextInt(clubs.size())));
             pair.setPairId(String.valueOf(random.nextInt()));
             pair.setAverageScore(random.nextDouble());
+            pair.selectAndSaveCompetitions(random.nextInt(10), competitions);
             pairs.add(pair);
         }
         return pairs;
@@ -132,7 +130,7 @@ public class EntityGenerator {
         return sportsmen;
     }
 
-    private static Trainer createFrameTrainer(String fullName){
+    private static Trainer createFrameTrainer(String fullName, List<Pair> pairs){
         Random random = new Random();
         String[] fullNameArr = fullName.split(" ");
         Trainer trainer = new Trainer();
@@ -141,6 +139,7 @@ public class EntityGenerator {
         trainer.setLastName(fullNameArr[1]);
         trainer.setLatin(random.nextBoolean());
         trainer.setStandard(random.nextBoolean());
+        trainer.selectAndSaveTrainingPairs(30, pairs);
         return trainer;
     }
 

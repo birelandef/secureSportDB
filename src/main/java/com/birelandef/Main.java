@@ -16,8 +16,9 @@ public class Main {
     public static void main(String[] args) {
         try {
             List<Sportsmen> sportsmens = EntityGenerator.generateSportsmens();
+            List<Competition> competitions = EntityGenerator.generateCompetitions();
+            List<Pair> pairs = EntityGenerator.generatePairs(sportsmens, competitions);
 
-            List<Pair> pairs = EntityGenerator.generatePairs(sportsmens);
             ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/beans.xml");
             DAO sportsmenDao = (DAO)context.getBean("sprtdao");
             DAO pairDao = (DAO)context.getBean("prdao");
@@ -27,15 +28,16 @@ public class Main {
                 sportsmenDao.addEntity(sportsmen);
             System.out.println("Count "+ sportsmenDao.getAllEntity().size());
 
+            for (Competition competition : competitions)
+                competitionDao.addEntity(competition);
+            System.out.println("Count "+ competitionDao.getAllEntity().size());
+
             for (Pair pair : pairs)
                 pairDao.addEntity(pair);
             System.out.println("Count "+ pairDao.getAllEntity().size());
 
-            for (Competition competition : EntityGenerator.generateCompetitions())
-                competitionDao.addEntity(competition);
-            System.out.println("Count "+ competitionDao.getAllEntity().size());
 
-            for (Trainer trainer : EntityGenerator.generateTrainers())
+            for (Trainer trainer : EntityGenerator.generateTrainers(pairs))
                 trainerDao.addEntity(trainer);
             System.out.println("Count "+ trainerDao.getAllEntity().size());
 

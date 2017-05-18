@@ -1,7 +1,11 @@
 package com.birelandef.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by sophie on 14/05/17.
@@ -25,12 +29,31 @@ public class Pair {
     private String club;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "TakePart",
             joinColumns = @JoinColumn(name = "competitionId"),
             inverseJoinColumns = @JoinColumn(name = "pairId"))
     private List<Competition> competitions;
 
+
+    public  void selectAndSaveCompetitions(int selectedCount, List<Competition> allCompetitions) {
+        Set<Competition> selectedCompetitions = new HashSet<>();
+
+        Random random = new Random();
+        for (int i = 0; i < selectedCount; i++) {
+            Competition competition = allCompetitions.get(random.nextInt(allCompetitions.size()));
+                selectedCompetitions.add(competition);
+            }
+        competitions =  selectedCompetitions.stream().collect(Collectors.toList());
+    }
+
+    public List<Competition> getCompetitions() {
+        return competitions;
+    }
+
+    public void setCompetitions(List<Competition> competitions) {
+        this.competitions = competitions;
+    }
     public String getPairId() {
         return pairId;
     }
@@ -92,5 +115,37 @@ public class Pair {
                 ", averageScore=" + averageScore +
                 ", club='" + club + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pair pair = (Pair) o;
+
+        if (score != pair.score) return false;
+        if (Double.compare(pair.averageScore, averageScore) != 0) return false;
+        if (!pairId.equals(pair.pairId)) return false;
+        if (!malePartnerId.equals(pair.malePartnerId)) return false;
+        if (!femalePartnerId.equals(pair.femalePartnerId)) return false;
+        if (club != null ? !club.equals(pair.club) : pair.club != null) return false;
+        return competitions != null ? competitions.equals(pair.competitions) : pair.competitions == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = pairId.hashCode();
+        result = 31 * result + malePartnerId.hashCode();
+        result = 31 * result + femalePartnerId.hashCode();
+        result = 31 * result + score;
+        temp = Double.doubleToLongBits(averageScore);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (club != null ? club.hashCode() : 0);
+        result = 31 * result + (competitions != null ? competitions.hashCode() : 0);
+        return result;
     }
 }
