@@ -13,7 +13,7 @@ import java.util.List;
  */
 @EnableTransactionManagement
 @Repository("prdao")
-public class PairDAO extends AbstractDAO<Pair>{
+public class PairDAO extends AbstractDAO<Pair, String>{
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Pair> getAllEntity() {

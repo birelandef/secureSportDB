@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by sophie on 14/05/17.
  */
-public interface DAO<T> {
+public interface DAO<T, Id> {
 
     /**
      * Add the entity to storage
@@ -28,7 +28,7 @@ public interface DAO<T> {
      * @param idEntity
      * @return found entity
      */
-    T findEntityById(String idEntity);
+    T findEntityById(Id idEntity);
 
     /**
      * Update the entity

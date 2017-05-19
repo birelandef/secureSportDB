@@ -1,10 +1,6 @@
 package com.birelandef.entities;
 
-import com.birelandef.entities.enums.ClassType;
-import com.birelandef.entities.enums.ProgramType;
-
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,8 +16,8 @@ public class Trainer {
     private String club;
     private boolean isLatin;
     private boolean isStandard;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.competition", cascade=CascadeType.ALL)
-    private Set<CompetitionResult> results;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.competition", cascade=CascadeType.MERGE)
+    private Set<CompetitionSettings> judgingCompetitions;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "Trains",
@@ -51,6 +47,7 @@ public class Trainer {
     }
 
 
+
     public List<Pair> getTrainedPairs() {
         return trainedPairs;
     }
@@ -59,12 +56,12 @@ public class Trainer {
         this.trainedPairs = trainedPairs;
     }
 
-    public Set<CompetitionResult> getResults() {
-        return results;
+    public Set<CompetitionSettings> getJudgingCompetitions() {
+        return judgingCompetitions;
     }
 
-    public void setResults(Set<CompetitionResult> results) {
-        this.results = results;
+    public void setJudgingCompetitions(Set<CompetitionSettings> results) {
+        this.judgingCompetitions = results;
     }
 
     public Trainer() {
@@ -144,7 +141,7 @@ public class Trainer {
         if (lastName != null ? !lastName.equals(trainer.lastName) : trainer.lastName != null) return false;
         if (firstName != null ? !firstName.equals(trainer.firstName) : trainer.firstName != null) return false;
         if (club != null ? !club.equals(trainer.club) : trainer.club != null) return false;
-        if (results != null ? !results.equals(trainer.results) : trainer.results != null) return false;
+        if (judgingCompetitions != null ? !judgingCompetitions.equals(trainer.judgingCompetitions) : trainer.judgingCompetitions != null) return false;
         return trainedPairs != null ? trainedPairs.equals(trainer.trainedPairs) : trainer.trainedPairs == null;
 
     }
@@ -157,7 +154,7 @@ public class Trainer {
         result = 31 * result + (club != null ? club.hashCode() : 0);
         result = 31 * result + (isLatin ? 1 : 0);
         result = 31 * result + (isStandard ? 1 : 0);
-        result = 31 * result + (results != null ? results.hashCode() : 0);
+        result = 31 * result + (judgingCompetitions != null ? judgingCompetitions.hashCode() : 0);
         result = 31 * result + (trainedPairs != null ? trainedPairs.hashCode() : 0);
         return result;
     }

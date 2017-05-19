@@ -13,7 +13,7 @@ import java.util.List;
  */
 @EnableTransactionManagement
 @Repository("trnrdao")
-public class TrainerDAO extends AbstractDAO<Trainer>{
+public class TrainerDAO extends AbstractDAO<Trainer, String>{
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Trainer> getAllEntity() {
         return em.createQuery("from Trainer", Trainer.class).getResultList();

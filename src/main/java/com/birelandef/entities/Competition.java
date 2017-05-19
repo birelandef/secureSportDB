@@ -18,7 +18,7 @@ public class Competition {
     private CompetitionType competitionType;
     private Date date;
     private String location;
-    private int maxPoint;
+    private int scorePerPair;
 
     public Competition() {
     }
@@ -71,12 +71,12 @@ public class Competition {
         this.location = location;
     }
 
-    public int getMaxPoint() {
-        return maxPoint;
+    public int getScorePerPair() {
+        return scorePerPair;
     }
 
-    public void setMaxPoint(int maxPoint) {
-        this.maxPoint = maxPoint;
+    public void setScorePerPair(int maxPoint) {
+        this.scorePerPair = maxPoint;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class Competition {
                 ", competitionType=" + competitionType +
                 ", date=" + date +
                 ", location='" + location + '\'' +
-                ", maxPoint=" + maxPoint +
+                ", maxPoint=" + scorePerPair +
                 '}';
     }
 }

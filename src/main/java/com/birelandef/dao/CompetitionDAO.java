@@ -13,7 +13,7 @@ import java.util.List;
  */
 @EnableTransactionManagement
 @Repository("cmptdao")
-public class CompetitionDAO extends AbstractDAO<Competition>{
+public class CompetitionDAO extends AbstractDAO<Competition, String>{
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Competition> getAllEntity() {
         return em.createQuery("from Competition", Competition.class).getResultList();

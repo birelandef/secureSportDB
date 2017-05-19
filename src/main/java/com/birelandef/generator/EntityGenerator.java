@@ -1,12 +1,12 @@
 package com.birelandef.generator;
 
-import com.birelandef.entities.Competition;
-import com.birelandef.entities.Pair;
-import com.birelandef.entities.Sportsmen;
-import com.birelandef.entities.Trainer;
+import com.birelandef.entities.*;
 import com.birelandef.entities.enums.ClassType;
 import com.birelandef.entities.enums.CompetitionType;
+import com.birelandef.entities.enums.ProgramType;
 import com.birelandef.entities.enums.SexType;
+import com.birelandef.utils.CompetitionResultId;
+import com.birelandef.utils.CompetitionSettingsId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,14 +83,29 @@ public class EntityGenerator {
             Pair pair = new Pair();
             pair.setMalePartnerId(manSportsmens.get(i));
             pair.setFemalePartnerId(womanSportsmens.get(i));
-            pair.setScore(random.nextInt());
+//            pair.setScore(random.nextInt());
             pair.setClub(clubs.get(random.nextInt(clubs.size())));
-            pair.setPairId(String.valueOf(random.nextInt()));
-            pair.setAverageScore(random.nextDouble());
-            pair.selectAndSaveCompetitions(random.nextInt(10), competitions);
+            pair.setPairId(String.valueOf(random.nextInt(Integer.MAX_VALUE)));
+//            pair.setAverageScore(random.nextDouble());
+//            pair.selectAndSaveCompetitions(random.nextInt(10), competitions);
             pairs.add(pair);
         }
         return pairs;
+    }
+
+    public static List<CompetitionSettings> generateSettings(List<Competition> competitions, List<Trainer> trainers) throws URISyntaxException {
+        List<CompetitionSettings> settings = new ArrayList<>();
+        Random random = new Random();
+        for (Competition competition : competitions) {
+            for (int i =0; i<7; i++){
+                CompetitionSettings setting = new CompetitionSettings();
+                setting.setPk(new CompetitionSettingsId(competition, trainers.get(random.nextInt(trainers.size()))));
+                setting.setProgram(random.nextBoolean() ? ProgramType.STANDARD : ProgramType.LATIN);
+                setting.setClassType(generateClass(random));
+                settings.add(setting);
+            }
+        }
+        return settings;
     }
 
 
@@ -99,9 +114,9 @@ public class EntityGenerator {
 
         Competition competition = new Competition();
         //todo generate id
-        competition.setCompetitionId(String.valueOf(String.valueOf(random.nextInt())));
+        competition.setCompetitionId(String.valueOf(String.valueOf(random.nextInt(Integer.MAX_VALUE))));
         competition.setName(name);
-        competition.setMaxPoint(30);
+        competition.setScorePerPair(5);
         competition.setLocation("г. Москва ДСЕ ЦСКА, Ленинградский пр-т,     д.39 стр.27");
         //todo generate date
 //        competition.setDate(new Date(Math.abs(System.currentTimeMillis() - random.nextLong())));
@@ -117,7 +132,7 @@ public class EntityGenerator {
 
         Sportsmen sportsmen = new Sportsmen();
         //todo generate id
-        sportsmen.setDocId(String.valueOf(random.nextInt()));
+        sportsmen.setDocId(String.valueOf(random.nextInt(Integer.MAX_VALUE)));
         sportsmen.setFirstName(fullNameArr[0]);
         sportsmen.setSecondName(fullNameArr[1]);
         sportsmen.setSexType(fullNameArr[2].endsWith(MALE_SUFFIX) ? SexType.MALE : SexType.FEMALE);
@@ -134,7 +149,7 @@ public class EntityGenerator {
         Random random = new Random();
         String[] fullNameArr = fullName.split(" ");
         Trainer trainer = new Trainer();
-        trainer.settDocId(String.valueOf(random.nextInt()));
+        trainer.settDocId(String.valueOf(random.nextInt(Integer.MAX_VALUE)));
         trainer.setFirstName(fullNameArr[0]);
         trainer.setLastName(fullNameArr[1]);
         trainer.setLatin(random.nextBoolean());
@@ -161,5 +176,26 @@ public class EntityGenerator {
             case 12: return null;
             default: return null;
         }
+    }
+
+    public static List<CompetitionResult> generateResult(List<Competition> competitions, List<Pair> pairs) {
+        List<CompetitionResult> results = new ArrayList<>();
+        List<Pair> copyPairs = new ArrayList<>();
+        Random random = new Random();
+        for (Competition competition : competitions) {
+            copyPairs.addAll(pairs);
+            int countPairs = random.nextInt(24);
+            for (int i = 0; i < countPairs; i++) {
+                CompetitionResult res = new CompetitionResult();
+                competition.getScorePerPair();
+                res.setPoint(i+1);
+                res.setScore((countPairs-1 -i) * competition.getScorePerPair());
+                Pair pair = copyPairs.get(random.nextInt(copyPairs.size()));
+                copyPairs.remove(pair);
+                res.setPk(new CompetitionResultId(competition, pair));
+                results.add(res);
+            }
+        }
+        return results;
     }
 }

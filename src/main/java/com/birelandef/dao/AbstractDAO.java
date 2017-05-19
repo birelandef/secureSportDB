@@ -17,7 +17,7 @@ import java.util.List;
  * Created by sophie on 14/05/17.
  */
 @EnableTransactionManagement
-public abstract class AbstractDAO<T> implements DAO<T> {
+public abstract class AbstractDAO<T, Id> implements DAO<T, Id> {
     @PersistenceContext
     protected EntityManager em;
 

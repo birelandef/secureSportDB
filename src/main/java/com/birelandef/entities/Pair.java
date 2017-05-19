@@ -28,32 +28,29 @@ public class Pair {
     private double averageScore;
     private String club;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.competition", cascade=CascadeType.MERGE)
+    private Set<CompetitionResult> competitionResults;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinTable(name = "TakePart",
-            joinColumns = @JoinColumn(name = "competitionId"),
-            inverseJoinColumns = @JoinColumn(name = "pairId"))
-    private List<Competition> competitions;
+//    public  void selectAndSaveCompetitions(int selectedCount, List<Competition> allCompetitions) {
+//        Set<Competition> selectedCompetitions = new HashSet<>();
+//
+//        Random random = new Random();
+//        for (int i = 0; i < selectedCount; i++) {
+//            Competition competition = allCompetitions.get(random.nextInt(allCompetitions.size()));
+//                selectedCompetitions.add(competition);
+//            }
+//        competitions =  selectedCompetitions.stream().collect(Collectors.toList());
+//    }
 
 
-    public  void selectAndSaveCompetitions(int selectedCount, List<Competition> allCompetitions) {
-        Set<Competition> selectedCompetitions = new HashSet<>();
-
-        Random random = new Random();
-        for (int i = 0; i < selectedCount; i++) {
-            Competition competition = allCompetitions.get(random.nextInt(allCompetitions.size()));
-                selectedCompetitions.add(competition);
-            }
-        competitions =  selectedCompetitions.stream().collect(Collectors.toList());
+    public Set<CompetitionResult> getCompetitionResults() {
+        return competitionResults;
     }
 
-    public List<Competition> getCompetitions() {
-        return competitions;
+    public void setCompetitionResults(Set<CompetitionResult> competitionResults) {
+        this.competitionResults = competitionResults;
     }
 
-    public void setCompetitions(List<Competition> competitions) {
-        this.competitions = competitions;
-    }
     public String getPairId() {
         return pairId;
     }
@@ -130,7 +127,7 @@ public class Pair {
         if (!malePartnerId.equals(pair.malePartnerId)) return false;
         if (!femalePartnerId.equals(pair.femalePartnerId)) return false;
         if (club != null ? !club.equals(pair.club) : pair.club != null) return false;
-        return competitions != null ? competitions.equals(pair.competitions) : pair.competitions == null;
+        return competitionResults != null ? competitionResults.equals(pair.competitionResults) : pair.competitionResults == null;
 
     }
 
@@ -145,7 +142,7 @@ public class Pair {
         temp = Double.doubleToLongBits(averageScore);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (club != null ? club.hashCode() : 0);
-        result = 31 * result + (competitions != null ? competitions.hashCode() : 0);
+        result = 31 * result + (competitionResults != null ? competitionResults.hashCode() : 0);
         return result;
     }
 }

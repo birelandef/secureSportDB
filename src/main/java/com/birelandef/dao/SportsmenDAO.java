@@ -14,7 +14,7 @@ import java.util.List;
  */
 @EnableTransactionManagement
 @Repository("sprtdao")
-public class SportsmenDAO extends AbstractDAO<Sportsmen> {
+public class SportsmenDAO extends AbstractDAO<Sportsmen, String> {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Sportsmen> getAllEntity() {
