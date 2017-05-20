@@ -3,6 +3,7 @@ package com.birelandef.entities;
 
 import com.birelandef.entities.enums.ClassType;
 import com.birelandef.entities.enums.SexType;
+import com.birelandef.utils.IdGenerator;
 
 import javax.persistence.Id;
 import java.math.BigInteger;
@@ -14,7 +15,7 @@ import java.util.Date;
 @javax.persistence.Entity
 public class Sportsmen {
     @Id
-    private String docId;
+    private final String docId;
     private String firstName;
     private String secondName;
     private Date birthDate;
@@ -23,6 +24,7 @@ public class Sportsmen {
     private ClassType standardClass;
 
     public Sportsmen() {
+        docId  = IdGenerator.generatorId();
     }
 
     public Sportsmen(String docId, String firstName, String secondName, Date birthDate, SexType sexTypeType, ClassType latinClass, ClassType standardClass) {
@@ -37,9 +39,6 @@ public class Sportsmen {
 
     public String getDocId() {
         return docId;
-    }
-    public void setDocId(String docId) {
-        this.docId = docId;
     }
 
     public String getFirstName() {

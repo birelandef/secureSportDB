@@ -1,5 +1,7 @@
 package com.birelandef.entities;
 
+import com.birelandef.utils.IdGenerator;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
@@ -14,11 +16,11 @@ import java.util.stream.Collectors;
 public class Pair {
 
     @Id
-    private String pairId;
+    private final String pairId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "malePartnerId", referencedColumnName = "docId")
-    private Sportsmen  malePartnerId;
+    private Sportsmen malePartnerId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "femalePartnerId", referencedColumnName = "docId")
@@ -53,10 +55,6 @@ public class Pair {
 
     public String getPairId() {
         return pairId;
-    }
-
-    public void setPairId(String pairId) {
-        this.pairId = pairId;
     }
 
     public Sportsmen getMalePartnerId() {
@@ -100,6 +98,7 @@ public class Pair {
     }
 
     public Pair() {
+        pairId = IdGenerator.generatorId();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.birelandef.entities;
 
+import com.birelandef.utils.IdGenerator;
+
 import javax.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,7 +12,7 @@ import java.util.stream.Collectors;
 @Entity
 public class Trainer {
     @Id
-    private String tDocId;
+    private final String tDocId;
     private String lastName;
     private String firstName;
     private String club;
@@ -65,15 +67,11 @@ public class Trainer {
     }
 
     public Trainer() {
+        tDocId  = IdGenerator.generatorId();
     }
 
     public String gettDocId() {
         return tDocId;
-    }
-
-
-    public void settDocId(String tDocId) {
-        this.tDocId = tDocId;
     }
 
     public String getLastName() {

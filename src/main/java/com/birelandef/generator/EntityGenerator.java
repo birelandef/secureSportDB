@@ -15,7 +15,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -85,7 +89,6 @@ public class EntityGenerator {
             pair.setFemalePartnerId(womanSportsmens.get(i));
 //            pair.setScore(random.nextInt());
             pair.setClub(clubs.get(random.nextInt(clubs.size())));
-            pair.setPairId(String.valueOf(random.nextInt(Integer.MAX_VALUE)));
 //            pair.setAverageScore(random.nextDouble());
 //            pair.selectAndSaveCompetitions(random.nextInt(10), competitions);
             pairs.add(pair);
@@ -113,13 +116,16 @@ public class EntityGenerator {
         Random random = new Random();
 
         Competition competition = new Competition();
-        //todo generate id
-        competition.setCompetitionId(String.valueOf(String.valueOf(random.nextInt(Integer.MAX_VALUE))));
         competition.setName(name);
         competition.setScorePerPair(5);
         competition.setLocation("г. Москва ДСЕ ЦСКА, Ленинградский пр-т,     д.39 стр.27");
-        //todo generate date
-//        competition.setDate(new Date(Math.abs(System.currentTimeMillis() - random.nextLong())));
+
+        LocalDate startDate = LocalDate.of(2016, 9, 1); //start date
+        LocalDate endDate = LocalDate.of(2017,5, 20); //end date
+        long randomEpochDay = ThreadLocalRandom.current().longs(startDate.toEpochDay(), endDate.toEpochDay()).findAny().getAsLong();
+        Instant instant = LocalDate.ofEpochDay(randomEpochDay).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+
+        competition.setDate(Date.from(instant));
         competition.setCompetitionType(CompetitionType.LOCAL);
         competition.setRate(1);
         return competition;
@@ -131,13 +137,16 @@ public class EntityGenerator {
         String[] fullNameArr = fullName.split(" ");
 
         Sportsmen sportsmen = new Sportsmen();
-        //todo generate id
-        sportsmen.setDocId(String.valueOf(random.nextInt(Integer.MAX_VALUE)));
         sportsmen.setFirstName(fullNameArr[0]);
         sportsmen.setSecondName(fullNameArr[1]);
         sportsmen.setSexType(fullNameArr[2].endsWith(MALE_SUFFIX) ? SexType.MALE : SexType.FEMALE);
-        //todo generate date
-//        sportsmen.setBirthDate(new Date(Math.abs(System.currentTimeMillis() - random.nextLong())));
+
+        LocalDate startDate = LocalDate.of(1980, 1, 1); //start date
+        LocalDate endDate = LocalDate.of(1999,12, 31); //end date
+        long randomEpochDay = ThreadLocalRandom.current().longs(startDate.toEpochDay(), endDate.toEpochDay()).findAny().getAsLong();
+        Instant instant = LocalDate.ofEpochDay(randomEpochDay).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+
+        sportsmen.setBirthDate(Date.from(instant));
         sportsmen.setLatinClass(generateClass(random));
         sportsmen.setStandardClass(generateClass(random));
 
@@ -149,7 +158,6 @@ public class EntityGenerator {
         Random random = new Random();
         String[] fullNameArr = fullName.split(" ");
         Trainer trainer = new Trainer();
-        trainer.settDocId(String.valueOf(random.nextInt(Integer.MAX_VALUE)));
         trainer.setFirstName(fullNameArr[0]);
         trainer.setLastName(fullNameArr[1]);
         trainer.setLatin(random.nextBoolean());
@@ -158,6 +166,18 @@ public class EntityGenerator {
         return trainer;
     }
 
+    /*
+     latinclass | count
+------------+-------
+            |   146
+          6 |    20 S
+          4 |    65 D
+          5 |    33 B
+          2 |    26 A
+          1 |    49 N
+          0 |    51 E
+          3 |    64 C
+     */
     private static ClassType generateClass(Random ran){
         int classInt = (int)Math.round((ran.nextGaussian() + 1) * 6);
         switch (classInt) {

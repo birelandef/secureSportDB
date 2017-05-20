@@ -1,6 +1,7 @@
 package com.birelandef.entities;
 
 import com.birelandef.entities.enums.CompetitionType;
+import com.birelandef.utils.IdGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,7 +13,7 @@ import java.util.Date;
 @Entity
 public class Competition {
     @Id
-    private String competitionId;
+    private final String competitionId;
     private String name;
     private int rate;
     private CompetitionType competitionType;
@@ -21,14 +22,11 @@ public class Competition {
     private int scorePerPair;
 
     public Competition() {
+        competitionId = IdGenerator.generatorId();
     }
 
     public String getCompetitionId() {
         return competitionId;
-    }
-
-    public void setCompetitionId(String competitionId) {
-        this.competitionId = competitionId;
     }
 
     public String getName() {

@@ -33,23 +33,23 @@ public class Main {
                 competitionDao.addEntity(competition);
             System.out.println("Count "+ competitionDao.getAllEntity().size());
 
-            for (Pair pair : pairs)
-                pairDao.addEntity(pair);
-            System.out.println("Count "+ pairDao.getAllEntity().size());
-
-
-            for (Trainer trainer : trainers)
-                trainerDao.addEntity(trainer);
-            System.out.println("Count "+ trainerDao.getAllEntity().size());
-
-            for (CompetitionSettings competitionSettings : EntityGenerator.generateSettings(competitions, trainers)) {
-                settingDao.addEntity(competitionSettings);
-            }
-//            System.out.println("Count "+ settingDao.getAllEntity().size());
-
-            for (CompetitionResult result : EntityGenerator.generateResult(competitions, pairs)) {
-                resultDao.addEntity(result);
-            }
+//            for (Pair pair : pairs)
+//                pairDao.addEntity(pair);
+//            System.out.println("Count "+ pairDao.getAllEntity().size());
+//
+//
+//            for (Trainer trainer : trainers)
+//                trainerDao.addEntity(trainer);
+//            System.out.println("Count "+ trainerDao.getAllEntity().size());
+//
+//            for (CompetitionSettings competitionSettings : EntityGenerator.generateSettings(competitions, trainers)) {
+//                settingDao.addEntity(competitionSettings);
+//            }
+////            System.out.println("Count "+ settingDao.getAllEntity().size());
+//
+//            for (CompetitionResult result : EntityGenerator.generateResult(competitions, pairs)) {
+//                resultDao.addEntity(result);
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();
