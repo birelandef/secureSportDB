@@ -13,9 +13,10 @@ public class Main {
     public static void main(String[] args) {
         try {
             List<Sportsmen> sportsmens = EntityGenerator.generateSportsmens();
-            List<Competition> competitions = EntityGenerator.generateCompetitions();
-            List<Pair> pairs = EntityGenerator.generatePairs(sportsmens, competitions);
+
+            List<Pair> pairs = EntityGenerator.generatePairs(sportsmens);
             List<Trainer> trainers = EntityGenerator.generateTrainers(pairs);
+            List<Competition> competitions = EntityGenerator.generateCompetitions(trainers);
 
             ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/beans.xml");
 
@@ -23,33 +24,34 @@ public class Main {
             DAO pairDao = (DAO)context.getBean("prdao");
             DAO competitionDao = (DAO)context.getBean("cmptdao");
             DAO trainerDao = (DAO)context.getBean("trnrdao");
-            DAO settingDao = (DAO)context.getBean("cmptstdao");
+//            DAO settingDao = (DAO)context.getBean("cmptstdao");
             DAO resultDao = (DAO)context.getBean("cmprsltdao");
             for (Sportsmen sportsmen : sportsmens)
                 sportsmenDao.addEntity(sportsmen);
             System.out.println("Count "+ sportsmenDao.getAllEntity().size());
 
+            for (Pair pair : pairs)
+                pairDao.addEntity(pair);
+            System.out.println("Count "+ pairDao.getAllEntity().size());
+
+
+            for (Trainer trainer : trainers)
+                trainerDao.addEntity(trainer);
+            System.out.println("Count "+ trainerDao.getAllEntity().size());
+
             for (Competition competition : competitions)
                 competitionDao.addEntity(competition);
             System.out.println("Count "+ competitionDao.getAllEntity().size());
 
-//            for (Pair pair : pairs)
-//                pairDao.addEntity(pair);
-//            System.out.println("Count "+ pairDao.getAllEntity().size());
-//
-//
-//            for (Trainer trainer : trainers)
-//                trainerDao.addEntity(trainer);
-//            System.out.println("Count "+ trainerDao.getAllEntity().size());
-//
+
 //            for (CompetitionSettings competitionSettings : EntityGenerator.generateSettings(competitions, trainers)) {
 //                settingDao.addEntity(competitionSettings);
 //            }
-////            System.out.println("Count "+ settingDao.getAllEntity().size());
-//
-//            for (CompetitionResult result : EntityGenerator.generateResult(competitions, pairs)) {
-//                resultDao.addEntity(result);
-//            }
+//            System.out.println("Count "+ settingDao.getAllEntity().size());
+
+            for (CompetitionResult result : EntityGenerator.generateResult(competitions, pairs)) {
+                resultDao.addEntity(result);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

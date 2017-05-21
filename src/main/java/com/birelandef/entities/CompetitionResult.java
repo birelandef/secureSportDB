@@ -4,6 +4,7 @@ import com.birelandef.entities.enums.ClassType;
 import com.birelandef.entities.enums.ProgramType;
 import com.birelandef.utils.CompetitionResultId;
 import com.birelandef.utils.CompetitionSettingsId;
+import com.birelandef.utils.IdGenerator;
 
 import javax.persistence.*;
 
@@ -22,6 +23,11 @@ public class CompetitionResult {
     CompetitionResultId pk;
     int score;
     int point;
+    final String competitionResultId;
+
+    public CompetitionResult() {
+        competitionResultId = IdGenerator.generatorId();
+    }
 
     public CompetitionResultId getPk() {
         return pk;

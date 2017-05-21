@@ -1,13 +1,10 @@
 package com.birelandef.entities;
 
+import com.birelandef.entities.enums.ClassType;
 import com.birelandef.utils.IdGenerator;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by sophie on 14/05/17.
@@ -29,6 +26,9 @@ public class Pair {
     private int score;
     private double averageScore;
     private String club;
+    private ClassType pairLatinClass;
+    private ClassType pairStandardClass;
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.competition", cascade=CascadeType.MERGE)
     private Set<CompetitionResult> competitionResults;
@@ -113,6 +113,22 @@ public class Pair {
                 '}';
     }
 
+    public ClassType getPairLatinClass() {
+        return pairLatinClass;
+    }
+
+    public void setPairLatinClass(ClassType pairClass) {
+        this.pairLatinClass = pairClass;
+    }
+
+    public ClassType getPairStandardClass() {
+        return pairStandardClass;
+    }
+
+    public void setPairStandardClass(ClassType pairStandardClass) {
+        this.pairStandardClass = pairStandardClass;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -126,6 +142,8 @@ public class Pair {
         if (!malePartnerId.equals(pair.malePartnerId)) return false;
         if (!femalePartnerId.equals(pair.femalePartnerId)) return false;
         if (club != null ? !club.equals(pair.club) : pair.club != null) return false;
+        if (pairLatinClass != pair.pairLatinClass) return false;
+        if (pairStandardClass != pair.pairStandardClass) return false;
         return competitionResults != null ? competitionResults.equals(pair.competitionResults) : pair.competitionResults == null;
 
     }
@@ -141,6 +159,8 @@ public class Pair {
         temp = Double.doubleToLongBits(averageScore);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (club != null ? club.hashCode() : 0);
+        result = 31 * result + (pairLatinClass != null ? pairLatinClass.hashCode() : 0);
+        result = 31 * result + (pairStandardClass != null ? pairStandardClass.hashCode() : 0);
         result = 31 * result + (competitionResults != null ? competitionResults.hashCode() : 0);
         return result;
     }
