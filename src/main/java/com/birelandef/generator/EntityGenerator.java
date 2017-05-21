@@ -95,27 +95,6 @@ public class EntityGenerator {
         return pairs;
     }
 
-//    public static List<CompetitionSettings> generateSettings(List<Competition> competitions, List<Trainer> trainers) throws URISyntaxException {
-//        List<CompetitionSettings> settings = new ArrayList<>();
-//        Random random = new Random();
-//        for (Competition competition : competitions) {
-//            for (int i =0; i<7; i++){
-//                CompetitionSettings setting = new CompetitionSettings();
-//                Trainer trainer = trainers.get(random.nextInt(trainers.size()));
-//                setting.setPk(new CompetitionSettingsId(competition,trainer ));
-//                if (!(trainer.isLatin()  && trainer.isStandard()))
-//                    setting.setProgram(random.nextBoolean() ? ProgramType.STANDARD : ProgramType.LATIN);
-//                else
-//                    setting.setProgram(trainer.isLatin() ? ProgramType.LATIN : ProgramType.STANDARD);
-//                ClassType cl = generateClass(random);
-//                setting.setClassType(cl!=null ? cl : ClassType.D );
-//                settings.add(setting);
-//            }
-//        }
-//        return settings;
-//    }
-
-
     private static Competition createFrameCompetition(String name, List<Trainer> trainers){
         Random random = new Random();
 
