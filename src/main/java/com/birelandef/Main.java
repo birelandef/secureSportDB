@@ -17,14 +17,13 @@ public class Main {
             List<Pair> pairs = EntityGenerator.generatePairs(sportsmens);
             List<Trainer> trainers = EntityGenerator.generateTrainers(pairs);
             List<Competition> competitions = EntityGenerator.generateCompetitions(trainers);
-
+            List<CompetitionResult> competitionResults = EntityGenerator.generateResult(competitions, pairs);
             ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/beans.xml");
 
             DAO sportsmenDao = (DAO)context.getBean("sprtdao");
             DAO pairDao = (DAO)context.getBean("prdao");
             DAO competitionDao = (DAO)context.getBean("cmptdao");
             DAO trainerDao = (DAO)context.getBean("trnrdao");
-//            DAO settingDao = (DAO)context.getBean("cmptstdao");
             DAO resultDao = (DAO)context.getBean("cmprsltdao");
             for (Sportsmen sportsmen : sportsmens)
                 sportsmenDao.addEntity(sportsmen);
@@ -43,7 +42,7 @@ public class Main {
                 competitionDao.addEntity(competition);
             System.out.println("Count "+ competitionDao.getAllEntity().size());
 
-            for (CompetitionResult result : EntityGenerator.generateResult(competitions, pairs)) {
+            for (CompetitionResult result : competitionResults) {
                 resultDao.addEntity(result);
             }
 

@@ -6,7 +6,6 @@ import com.birelandef.entities.enums.CompetitionType;
 import com.birelandef.entities.enums.ProgramType;
 import com.birelandef.entities.enums.SexType;
 import com.birelandef.utils.CompetitionResultId;
-import com.birelandef.utils.CompetitionSettingsId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,11 +84,14 @@ public class EntityGenerator {
         for (int i = 0; i< COUNT_OF_PAIR; i++) {
             Random random = new Random();
             Pair pair = new Pair();
-            pair.setMalePartnerId( manSportsmens.get(i));
+            Sportsmen man = manSportsmens.get(i);
+            pair.setMalePartnerId(man);
             pair.setFemalePartnerId(womanSportsmens.get(i));
 //            pair.setScore(random.nextInt());
             pair.setClub(clubs.get(random.nextInt(clubs.size())));
 //            pair.setAverageScore(random.nextDouble());
+            pair.setPairLatinClass(man.getLatinClass());
+            pair.setPairStandardClass(man.getStandardClass());
             pairs.add(pair);
         }
         return pairs;
@@ -125,7 +127,6 @@ public class EntityGenerator {
                 judges.add(trainer);
             }
         }
-//        System.out.println(judges.size());
         competition.setInvitedJudgers(judges);
         return competition;
     }
@@ -199,24 +200,71 @@ public class EntityGenerator {
 
     public static List<CompetitionResult> generateResult(List<Competition> competitions, List<Pair> pairs) {
         List<CompetitionResult> results = new ArrayList<>();
-        List<Pair> copyPairs = new ArrayList<>();
-
+        // sort pair to program/class
+        Map<String, List<Pair>> sortedPairs = sortPairs(pairs);
         Random random = new Random();
         for (Competition competition : competitions) {
 
-
-            copyPairs.addAll(pairs);
+            List<Pair> thesePairs =new ArrayList<>();
+            thesePairs.addAll(sortedPairs.get(competition.getProgram().name() + competition.getClassType().getClassName()));
+//            System.out.println(competition.getProgram().name() + competition.getClassType().getClassName() + " : " + thesePairs.size());
             int countPairs = random.nextInt(12);
+//            System.out.println(countPairs);
             for (int i = 0; i < countPairs; i++) {
+                if (thesePairs.size() == 0)
+                    break;
                 CompetitionResult res = new CompetitionResult();
+                Pair pair = thesePairs.get(random.nextInt(thesePairs.size()));
+                thesePairs.remove(pair);
+                res.setPk(new CompetitionResultId(competition, pair));
+
                 res.setPoint(i+1);
                 res.setScore((countPairs-1 -i) * competition.getScorePerPair());
-                Pair pair = copyPairs.get(random.nextInt(copyPairs.size()));
-                copyPairs.remove(pair);
-                res.setPk(new CompetitionResultId(competition, pair));
                 results.add(res);
             }
         }
         return results;
+    }
+
+    private static Map<String, List<Pair>> sortPairs(List<Pair> initPairs){
+        Map<String, List<Pair>> map = new HashMap<>();
+        initPairs.stream().forEach(value -> checkPair(value, map));
+//        System.out.println("LATINA" + map.get("LATINC").size());
+//        System.out.println("LATINB" + map.get("LATINB").size());
+//        System.out.println("LATINC" + map.get("LATINC").size());
+//        System.out.println("LATIND" + map.get("LATIND").size());
+//        System.out.println("LATINE" + map.get("LATINE").size());
+//        System.out.println("LATINN" + map.get("LATINN").size());
+//        System.out.println("LATINS" + map.get("LATINS").size());
+//        System.out.println("STANDARDA" + map.get("STANDARDA").size());
+//        System.out.println("STANDARDB" + map.get("STANDARDB").size());
+//        System.out.println("STANDARDC" + map.get("STANDARDC").size());
+//        System.out.println("STANDARDD" + map.get("STANDARDD").size());
+//        System.out.println("STANDARDE" + map.get("STANDARDE").size());
+//        System.out.println("STANDARDN" + map.get("STANDARDN").size());
+//        System.out.println("STANDARDS" + map.get("STANDARDS").size());
+        return map;
+    }
+
+    private static void checkPair(Pair pair, Map<String, List<Pair>> map ){
+        ClassType latinClass = pair.getPairLatinClass();
+        ClassType standardClass = pair.getPairStandardClass();
+        if (latinClass !=null){
+            String key = ProgramType.LATIN.name()+latinClass.getClassName();
+            List<Pair> addedPairs = map.get(key);
+            if (addedPairs == null)
+                addedPairs = new ArrayList<Pair>();
+            addedPairs.add(pair);
+            map.put(key, addedPairs);
+        }
+        if (standardClass !=null){
+            String key = ProgramType.STANDARD.name()+standardClass.getClassName();
+            List<Pair> addedPairs = map.get(key);
+            if (addedPairs == null)
+                addedPairs = new ArrayList<Pair>();
+            addedPairs.add(pair);
+            map.put(key, addedPairs);
+        }
+
     }
 }
