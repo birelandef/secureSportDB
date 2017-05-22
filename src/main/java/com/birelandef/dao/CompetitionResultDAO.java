@@ -1,7 +1,6 @@
 package com.birelandef.dao;
 
 import com.birelandef.entities.CompetitionResult;
-import com.birelandef.entities.CompetitionSettings;
 import com.birelandef.utils.CompetitionResultId;
 import com.birelandef.utils.CompetitionSettingsId;
 import org.springframework.stereotype.Repository;

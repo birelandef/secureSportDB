@@ -1,5 +1,7 @@
 package com.birelandef.dao;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -43,4 +45,6 @@ public interface DAO<T, Id> {
      * @param entity
      */
     void removeEntity(T entity);
+
+    public JdbcTemplate getTemplate();
 }

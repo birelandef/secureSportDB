@@ -3,12 +3,30 @@ package com.birelandef;
 import com.birelandef.dao.DAO;
 import com.birelandef.entities.*;
 import com.birelandef.generator.EntityGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
 public class Main {
+
+    @Autowired
+    static JdbcTemplate template;
+    private static final String TRIGGER_FUNCTION_SCRIPT = "CREATE FUNCTION UPDATE_SCORE () RETURNS trigger AS $$\n" +
+            "BEGIN \n" +
+            "UPDATE PAIR\n" +
+            "    SET SCORE = PAIR.SCORE + NEW.SCORE\n" +
+            "    WHERE PAIR.pairid  = NEW.pairid;\n" +
+            "RETURN NEW;\n" +
+            "END;  \n" +
+            "$$\n" +
+            "LANGUAGE  plpgsql;";
+    private static final String TRIGGER_SCRIPT = "CREATE TRIGGER INSERT_SCORE\n" +
+            "AFTER  INSERT ON TAKEPART  \n" +
+            "FOR EACH  ROW \n" +
+            "EXECUTE PROCEDURE UPDATE_SCORE ();";
 
     public static void main(String[] args) {
         try {
@@ -25,6 +43,10 @@ public class Main {
             DAO competitionDao = (DAO)context.getBean("cmptdao");
             DAO trainerDao = (DAO)context.getBean("trnrdao");
             DAO resultDao = (DAO)context.getBean("cmprsltdao");
+//            pairDao.getTemplate().execute(TRIGGER_FUNCTION_SCRIPT);
+            pairDao.getTemplate().execute(TRIGGER_SCRIPT);
+
+
             for (Sportsmen sportsmen : sportsmens)
                 sportsmenDao.addEntity(sportsmen);
             System.out.println("Count "+ sportsmenDao.getAllEntity().size());
@@ -47,7 +69,7 @@ public class Main {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
 
     }

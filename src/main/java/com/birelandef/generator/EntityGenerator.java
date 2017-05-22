@@ -229,20 +229,6 @@ public class EntityGenerator {
     private static Map<String, List<Pair>> sortPairs(List<Pair> initPairs){
         Map<String, List<Pair>> map = new HashMap<>();
         initPairs.stream().forEach(value -> checkPair(value, map));
-//        System.out.println("LATINA" + map.get("LATINC").size());
-//        System.out.println("LATINB" + map.get("LATINB").size());
-//        System.out.println("LATINC" + map.get("LATINC").size());
-//        System.out.println("LATIND" + map.get("LATIND").size());
-//        System.out.println("LATINE" + map.get("LATINE").size());
-//        System.out.println("LATINN" + map.get("LATINN").size());
-//        System.out.println("LATINS" + map.get("LATINS").size());
-//        System.out.println("STANDARDA" + map.get("STANDARDA").size());
-//        System.out.println("STANDARDB" + map.get("STANDARDB").size());
-//        System.out.println("STANDARDC" + map.get("STANDARDC").size());
-//        System.out.println("STANDARDD" + map.get("STANDARDD").size());
-//        System.out.println("STANDARDE" + map.get("STANDARDE").size());
-//        System.out.println("STANDARDN" + map.get("STANDARDN").size());
-//        System.out.println("STANDARDS" + map.get("STANDARDS").size());
         return map;
     }
 

@@ -39,4 +39,8 @@ public abstract class AbstractDAO<T, Id> implements DAO<T, Id> {
     public void removeEntity(T entity) {
         em.remove(em.contains(entity) ? entity : em.merge(entity));
     }
+
+    public JdbcTemplate getTemplate() {
+        return template;
+    }
 }
