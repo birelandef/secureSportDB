@@ -27,7 +27,6 @@ public class Trainer {
             inverseJoinColumns = @JoinColumn(name = "pairId", updatable = false, nullable = false))
     private List<Pair> trainedPairs;
 
-
     public  void selectAndSaveTrainingPairs(int selectedCount, List<Pair> pairs) {
         Set<Pair> selectedPairs = new HashSet<>();
 

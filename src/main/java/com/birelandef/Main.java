@@ -28,6 +28,8 @@ public class Main {
             "FOR EACH  ROW \n" +
             "EXECUTE PROCEDURE UPDATE_SCORE ();";
 
+    private static String SCRIPT = "select max(t.coun) from (select count(*) as coun from takepart group by pairid) as t;";
+
     public static void main(String[] args) {
         try {
             List<Sportsmen> sportsmens = EntityGenerator.generateSportsmens();
@@ -67,6 +69,7 @@ public class Main {
             for (CompetitionResult result : competitionResults) {
                 resultDao.addEntity(result);
             }
+
 
         } catch (Exception e) {
 
